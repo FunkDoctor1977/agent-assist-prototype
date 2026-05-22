@@ -26,10 +26,10 @@ It is intentionally a **prototype**, not a production system — built to make t
 ## Roadmap
 
 - [ ] v0.1 — Scaffold UI (Next.js) with a fake transcript player
-- [ ] v0.2 — Wire Claude API for intent + suggested response
+- [ ] v0.2 — **Live demo mode**: paste in any call script and an Anthropic API key, the app analyses lines in real time using Claude. Designed for interview-stage demos where a hiring manager supplies their own scenario.
 - [ ] v0.3 — Add a small JSON knowledge base + retrieval
-- [ ] v0.4 — Sentiment / escalation flag
-- [ ] v0.5 — Deploy to Vercel + record demo Loom
+- [ ] v0.4 — Refined sentiment / escalation flag logic
+- [ ] v0.5 — Deploy to Vercel · embed screenshots in this README
 
 ## Stack
 
