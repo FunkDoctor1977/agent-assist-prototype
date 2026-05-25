@@ -2,9 +2,13 @@
 
 import { AgentInsight } from "@/lib/mockAi";
 
+type Mode = "demo" | "live";
+
 type Props = {
   insight: AgentInsight | null;
   loading: boolean;
+  error?: string | null;
+  mode?: Mode;
 };
 
 const sentimentColour: Record<AgentInsight["sentiment"], string> = {
@@ -21,18 +25,34 @@ const riskColour: Record<AgentInsight["escalationRisk"], string> = {
   high: "bg-rose-500",
 };
 
-export function AgentSidebar({ insight, loading }: Props) {
+export function AgentSidebar({ insight, loading, error, mode = "demo" }: Props) {
   return (
     <div className="flex flex-col h-full bg-white border-l border-slate-200">
-      <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-r from-brand-50 to-white">
-        <div className="text-sm font-semibold text-brand-700">Agent Assist</div>
-        <div className="text-xs text-slate-500">Real-time AI co-pilot · prototype</div>
+      <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-r from-brand-50 to-white flex items-center justify-between gap-2">
+        <div>
+          <div className="text-sm font-semibold text-brand-700">Agent Assist</div>
+          <div className="text-xs text-slate-500">Real-time AI co-pilot · prototype</div>
+        </div>
+        {mode === "live" ? (
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-emerald-100 text-emerald-800">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Live · Claude API
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-slate-100 text-slate-600">
+            Demo · canned data
+          </span>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        {!insight && !loading && (
-          <EmptyState />
+        {error && (
+          <div className="mb-3 p-3 text-xs rounded border border-rose-200 bg-rose-50 text-rose-800">
+            <div className="font-semibold mb-0.5">Live analysis error</div>
+            <div className="break-words">{error}</div>
+          </div>
         )}
+        {!insight && !loading && !error && <EmptyState mode={mode} />}
         {loading && <Skeleton />}
         {insight && !loading && (
           <div className="space-y-4">
@@ -84,8 +104,9 @@ export function AgentSidebar({ insight, loading }: Props) {
       </div>
 
       <div className="px-4 py-2 border-t border-slate-200 bg-slate-50 text-[10px] text-slate-500 leading-snug">
-        v0.1 · Insights generated from a hand-crafted fixture for demo purposes.
-        Architecture is wired for Anthropic Claude — drop in an API key to switch to live LLM analysis.
+        {mode === "live"
+          ? "v0.2 · Live mode: each customer line is sent to Anthropic Claude (Haiku 4.5) for real-time analysis. Your API key is held in memory only."
+          : "v0.2 · Demo mode: insights from a hand-crafted fixture. Switch to Live mode (top right) to wire it to Claude with your own key."}
       </div>
     </div>
   );
@@ -102,10 +123,12 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   );
 }
 
-function EmptyState() {
+function EmptyState({ mode }: { mode: Mode }) {
   return (
     <div className="text-sm text-slate-400 italic">
-      Insights will appear here as the customer speaks…
+      {mode === "live"
+        ? "Press Start call to begin streaming the script. Insights from Claude will appear here after each customer line."
+        : "Insights will appear here as the customer speaks…"}
     </div>
   );
 }
