@@ -1,0 +1,11 @@
+agent: Good morning, you've reached Northwave Telecom customer care, this is Priya speaking. How can I help you today?
+customer: Yeah hi, I've been without broadband since Friday. Friday. It is now Tuesday morning. This is the third time I've called.
+agent: I'm really sorry to hear that. Can I take your account number or postcode so I can pull up your details?
+customer: B9 5DE. Look, every time I call, I get a different person, I have to repeat the whole story, and someone promises me an engineer "within 48 hours" and nobody shows up. I'm working from home, I've lost actual money.
+agent: I completely understand the frustration, I'm going to take ownership of this in this call. Let me have a quick look at the engineer log on your account.
+customer: I don't want another promise. I want to know exactly when someone is coming.
+agent: One moment, I'm pulling that up now.
+customer: Honestly if you can't give me a fixed date in this call I'm going to cancel and move to BT. I've been a customer for eleven years and this is how you treat me.
+agent: I really don't want it to come to that. I can see the previous tickets and I can see why you've lost patience.
+customer: This is also costing me — I had a client call yesterday and I had to drive to a coffee shop. I want some compensation as well as a fix.
+agent: That's absolutely fair. Let me sort the engineer slot first, then we'll talk credit on the account.

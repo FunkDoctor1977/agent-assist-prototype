@@ -31,6 +31,10 @@ It is intentionally a **prototype**, not a production system — built to make t
 - [ ] v0.4 — Refined sentiment / escalation flag logic
 - [ ] v0.5 — Deploy to Vercel · embed screenshots in this README
 
+## Testing
+
+Pre-flight checklist and demo guidance in [TESTING.md](TESTING.md). Three sample disgruntled-customer transcripts (telco, banking, insurance) in [`fixtures/transcripts/`](fixtures/transcripts/) — paste any of them straight into Live Mode for an end-to-end test.
+
 ## Stack
 
 Next.js · TypeScript · Anthropic Claude API · Tailwind · Vercel

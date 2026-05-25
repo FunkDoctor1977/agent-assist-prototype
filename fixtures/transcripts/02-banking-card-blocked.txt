@@ -1,0 +1,12 @@
+agent: Good afternoon, Meridian Bank fraud and disputes team, this is Marcus. How can I help?
+customer: My card's been blocked. I'm standing in a petrol station. I've just filled up and the card was declined twice. I had to leave my driving licence with the cashier and walk back to the car.
+agent: That sounds incredibly stressful, I'm sorry. Can I take you through some security questions and then I'll get this unblocked straight away?
+customer: I've already done security with the IVR. Three times. The system told me an agent was being connected and then I waited fourteen minutes on hold.
+agent: I do apologise for the wait. I just need a couple of questions on my side as well — last transaction amount and your date of birth.
+customer: Twelve pound forty at Tesco this morning. Date of birth fourteenth of March nineteen seventy two.
+agent: Thank you, that matches. I can see why the card was blocked — there was an attempted online transaction this morning at a merchant we flag as high-risk. The system put a temporary hold pending your confirmation.
+customer: So nobody phoned me? Nobody texted? You just blocked the card without warning while I'm trying to fill up my car?
+agent: We did send an SMS at 09:14 but I can see it bounced — looks like the mobile on file might be out of date.
+customer: This is ridiculous. I'm thinking about closing this account, honestly. My partner banks with Monzo and she's never had this nonsense.
+agent: I really don't want to lose you. Let me lift the block now, update your mobile, and I'll get a goodwill credit applied for the time you've lost.
+customer: Just unblock it first please. The cashier is staring at me.

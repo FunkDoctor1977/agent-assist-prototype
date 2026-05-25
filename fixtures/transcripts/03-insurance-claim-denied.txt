@@ -1,0 +1,13 @@
+agent: Good afternoon, Bridgehouse Home Insurance claims, this is Helen speaking. How can I help today?
+customer: I'm calling about claim reference HC-77231. My boiler flooded the downstairs of my house and you've just sent me a letter saying the claim's denied.
+agent: I'm sorry to hear that. Let me bring the file up. Bear with me one moment.
+customer: I've been a policyholder for nine years. Nine. I've never claimed before. And the one time I do, you say no?
+agent: I have it open in front of me. Let me read what the assessor wrote.
+customer: I've already read the letter. It says "lack of regular maintenance." The boiler is six years old, it had a service last year, I have the certificate. I sent the certificate when I submitted the claim.
+agent: Okay, so I can see the service certificate is attached. The assessor's note refers to the corrosion on the joint, suggesting it would have been visible at the service.
+customer: That's absurd. The service didn't include taking the boiler apart. And how is a corroded joint my fault when I have a paid service contract with the engineer you recommended on your panel?
+agent: I understand. Can I confirm — the engineer was from our approved list?
+customer: Yes. I used the link on your website. So you're telling me one of your approved engineers signed off on a boiler that you now say should have been condemned, and that's somehow my problem? I'm going to take this to the Ombudsman if I don't get a different answer in the next two days.
+agent: Please don't go to the Ombudsman yet. What you've just told me genuinely changes the picture and I think the original decision was made without the full context. Let me escalate this to a senior claims handler today.
+customer: Today. I want a phone call back today. Not "within five working days." Today.
+agent: I'll commit to a callback by end of business today. May I confirm the best number to reach you on?
