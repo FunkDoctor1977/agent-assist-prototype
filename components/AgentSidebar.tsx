@@ -4,12 +4,26 @@ import { AgentInsight } from "@/lib/mockAi";
 
 type Mode = "demo" | "live";
 
+export type SubAgentTrace = {
+  name: string;
+  model: string;
+  status: "ok" | "error";
+  latencyMs: number;
+  error: string | null;
+};
+
+export type MultiAgentMeta = {
+  totalMs: number;
+  traces: SubAgentTrace[];
+};
+
 type Props = {
   insight: AgentInsight | null;
   loading: boolean;
   error?: string | null;
   mode?: Mode;
   kbActive?: boolean;
+  multiAgent?: MultiAgentMeta | null;
 };
 
 const sentimentColour: Record<AgentInsight["sentiment"], string> = {
@@ -26,7 +40,7 @@ const riskColour: Record<AgentInsight["escalationRisk"], string> = {
   high: "bg-rose-500",
 };
 
-export function AgentSidebar({ insight, loading, error, mode = "demo", kbActive = false }: Props) {
+export function AgentSidebar({ insight, loading, error, mode = "demo", kbActive = false, multiAgent }: Props) {
   return (
     <div className="flex flex-col h-full bg-white border-l border-slate-200">
       <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-r from-brand-50 to-white flex items-center justify-between gap-2">
@@ -67,6 +81,10 @@ export function AgentSidebar({ insight, loading, error, mode = "demo", kbActive 
         {loading && <Skeleton />}
         {insight && !loading && (
           <div className="space-y-4">
+            {mode === "live" && multiAgent && multiAgent.traces.length > 0 && (
+              <MultiAgentPanel meta={multiAgent} />
+            )}
+
             <Section label="Customer intent">
               <div className="text-sm text-slate-800">{insight.intent}</div>
             </Section>
@@ -140,6 +158,37 @@ function EmptyState({ mode }: { mode: Mode }) {
       {mode === "live"
         ? "Press Start call to begin streaming the script. Insights from Claude will appear here after each customer line."
         : "Insights will appear here as the customer speaks…"}
+    </div>
+  );
+}
+
+function MultiAgentPanel({ meta }: { meta: MultiAgentMeta }) {
+  const okCount = meta.traces.filter((t) => t.status === "ok").length;
+  return (
+    <div className="border border-violet-200 bg-violet-50/60 rounded-md p-2.5">
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="text-[10px] font-semibold uppercase tracking-wide text-violet-700">
+          Multi-agent pipeline
+        </div>
+        <div className="text-[10px] text-violet-700/80">
+          {okCount}/{meta.traces.length} ok · {meta.totalMs}ms total
+        </div>
+      </div>
+      <ul className="space-y-1">
+        {meta.traces.map((t, i) => (
+          <li key={i} className="flex items-center gap-2 text-[11px]">
+            <span
+              className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                t.status === "ok" ? "bg-emerald-500" : "bg-rose-500"
+              }`}
+              title={t.status === "ok" ? "Sub-agent succeeded" : `Error: ${t.error}`}
+            />
+            <span className="font-medium text-slate-800">{t.name}</span>
+            <span className="text-slate-500 text-[10px]">{t.model}</span>
+            <span className="ml-auto tabular-nums text-slate-600">{t.latencyMs}ms</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

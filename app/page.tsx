@@ -7,6 +7,7 @@ import { TranscriptPlayer } from "@/components/TranscriptPlayer";
 import { AgentSidebar } from "@/components/AgentSidebar";
 import { LiveModeSetup } from "@/components/LiveModeSetup";
 import { KnowledgeBasePanel } from "@/components/KnowledgeBasePanel";
+import type { MultiAgentMeta } from "@/components/AgentSidebar";
 import type { AgentInsight } from "@/lib/mockAi";
 
 const LINE_INTERVAL_MS = 3500;
@@ -31,6 +32,7 @@ export default function Home() {
   const [insight, setInsight] = useState<AgentInsight | null>(null);
   const [loadingInsight, setLoadingInsight] = useState(false);
   const [liveError, setLiveError] = useState<string | null>(null);
+  const [multiAgent, setMultiAgent] = useState<MultiAgentMeta | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Fetch the current KB state once on mount so the header badge is correct.
@@ -69,6 +71,7 @@ export default function Home() {
     let cancelled = false;
     setLoadingInsight(true);
     setLiveError(null);
+    setMultiAgent(null);
 
     const endpoint = mode === "demo" ? "/api/analyze" : "/api/analyze-live";
     const body =
@@ -93,6 +96,7 @@ export default function Home() {
           setInsight(null);
         } else {
           setInsight(data.insight ?? null);
+          if (data.multiAgent) setMultiAgent(data.multiAgent as MultiAgentMeta);
         }
         setLoadingInsight(false);
       })
@@ -127,6 +131,7 @@ export default function Home() {
     setInsight(null);
     setLoadingInsight(false);
     setLiveError(null);
+    setMultiAgent(null);
   }
 
   function handleLiveStart(rawScript: string, apiKey: string) {
@@ -216,6 +221,7 @@ export default function Home() {
             error={liveError}
             mode={mode}
             kbActive={kbChunkCount > 0}
+            multiAgent={multiAgent}
           />
         </div>
       )}
