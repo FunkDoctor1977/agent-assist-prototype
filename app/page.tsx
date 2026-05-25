@@ -6,6 +6,7 @@ import { parseScript } from "@/lib/parseScript";
 import { TranscriptPlayer } from "@/components/TranscriptPlayer";
 import { AgentSidebar } from "@/components/AgentSidebar";
 import { LiveModeSetup } from "@/components/LiveModeSetup";
+import { KnowledgeBasePanel } from "@/components/KnowledgeBasePanel";
 import type { AgentInsight } from "@/lib/mockAi";
 
 const LINE_INTERVAL_MS = 3500;
@@ -14,6 +15,8 @@ type Mode = "demo" | "live";
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("demo");
+  const [kbOpen, setKbOpen] = useState(false);
+  const [kbChunkCount, setKbChunkCount] = useState(0);
 
   // Live mode state — only used when mode === "live"
   const [liveScript, setLiveScript] = useState<TranscriptLine[]>([]);
@@ -29,6 +32,18 @@ export default function Home() {
   const [loadingInsight, setLoadingInsight] = useState(false);
   const [liveError, setLiveError] = useState<string | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Fetch the current KB state once on mount so the header badge is correct.
+  useEffect(() => {
+    fetch("/api/kb/list")
+      .then((r) => r.json())
+      .then((data: { totalChunks?: number }) => {
+        if (typeof data.totalChunks === "number") setKbChunkCount(data.totalChunks);
+      })
+      .catch(() => {
+        /* non-fatal */
+      });
+  }, []);
 
   // Drive the transcript forward when playing.
   useEffect(() => {
@@ -152,6 +167,18 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setKbOpen(true)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded border border-slate-300 text-slate-700 hover:bg-slate-50"
+            title="Upload PDFs / DOCX / MD / TXT — analyzed live by vector retrieval"
+          >
+            📚 KB
+            {kbChunkCount > 0 && (
+              <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 font-semibold">
+                {kbChunkCount}
+              </span>
+            )}
+          </button>
           <ModeToggle mode={mode} onChange={handleModeChange} />
           {mode === "live" && liveStarted && (
             <button
@@ -183,9 +210,21 @@ export default function Home() {
             onPlayPause={handlePlayPause}
             onReset={handleReset}
           />
-          <AgentSidebar insight={insight} loading={loadingInsight} error={liveError} mode={mode} />
+          <AgentSidebar
+            insight={insight}
+            loading={loadingInsight}
+            error={liveError}
+            mode={mode}
+            kbActive={kbChunkCount > 0}
+          />
         </div>
       )}
+
+      <KnowledgeBasePanel
+        open={kbOpen}
+        onClose={() => setKbOpen(false)}
+        onChange={setKbChunkCount}
+      />
     </main>
   );
 }

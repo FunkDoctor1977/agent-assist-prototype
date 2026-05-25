@@ -9,6 +9,7 @@ type Props = {
   loading: boolean;
   error?: string | null;
   mode?: Mode;
+  kbActive?: boolean;
 };
 
 const sentimentColour: Record<AgentInsight["sentiment"], string> = {
@@ -25,7 +26,7 @@ const riskColour: Record<AgentInsight["escalationRisk"], string> = {
   high: "bg-rose-500",
 };
 
-export function AgentSidebar({ insight, loading, error, mode = "demo" }: Props) {
+export function AgentSidebar({ insight, loading, error, mode = "demo", kbActive = false }: Props) {
   return (
     <div className="flex flex-col h-full bg-white border-l border-slate-200">
       <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-r from-brand-50 to-white flex items-center justify-between gap-2">
@@ -33,16 +34,26 @@ export function AgentSidebar({ insight, loading, error, mode = "demo" }: Props) 
           <div className="text-sm font-semibold text-brand-700">Agent Assist</div>
           <div className="text-xs text-slate-500">Real-time AI co-pilot · prototype</div>
         </div>
-        {mode === "live" ? (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-emerald-100 text-emerald-800">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Live · Claude API
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-slate-100 text-slate-600">
-            Demo · canned data
-          </span>
-        )}
+        <div className="flex items-center gap-1.5">
+          {kbActive && (
+            <span
+              className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full bg-indigo-100 text-indigo-800"
+              title="Vector retrieval from uploaded KB is active"
+            >
+              RAG
+            </span>
+          )}
+          {mode === "live" ? (
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-emerald-100 text-emerald-800">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Live · Claude API
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full bg-slate-100 text-slate-600">
+              Demo · canned data
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-4">
